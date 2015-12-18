@@ -14,18 +14,31 @@ public class AuthenticationService {
 
     }
 
-    @HystrixCommand(fallbackMethod = "authenticationFallback")
     public boolean authenticate(String username, String password) {
-        if(username == null || password == null)
-        {
-            throw new RuntimeException("username and/or password not provided");
-        }
-        return true;
+        String userId = getUserId(username);
+        boolean isCorrect = checkPassword(userId, password);
+        return isCorrect;
+    }
+
+    @HystrixCommand(fallbackMethod = "getUserIdFallback")
+    private String getUserId(String username) {
+        throw new RuntimeException("username cannot be found");
     }
     
-    public boolean authenticationFallback(String username, String password, Throwable e)
+    private String getUserIdFallback(String username, Throwable e)
     {
-        LOGGER.error("authentication fallback called", e);
-        return false;
+        LOGGER.error(username, e);
+        return "abc";
+    }
+
+    @HystrixCommand(fallbackMethod = "checkPasswordFallback")
+    private boolean checkPassword(String userId, String password) {
+        throw new RuntimeException("password doesn't match");
+    }
+    
+    private boolean checkPasswordFallback(String userId, String password, Throwable e)
+    {
+        LOGGER.error(userId, e);
+        return true;
     }
 }

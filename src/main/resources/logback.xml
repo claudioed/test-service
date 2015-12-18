@@ -15,7 +15,7 @@
         <appender-ref ref="SERVER_CONSOLE_ASYNC" />
     </logger>
 
-    <root level="DEBUG">
+    <root level="WARN">
         <appender-ref ref="SERVER_CONSOLE_ASYNC" />
     </root>
 

@@ -36,6 +36,6 @@ public class AuthenticationResourceTest {
         map.add("username", "username");
         entity = restTemplate.postForEntity(BASE_URL + "/authenticate",map, HashMap.class);
         assertThat(entity.getStatusCode().value()).isEqualTo(200);
-        assertThat(entity.getBody().get("success")).isEqualTo(false);
+        assertThat(entity.getBody().get("success")).isEqualTo(true);
     }
 }
